@@ -1,0 +1,96 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+body {
+    width: min(30rem, 100%);
+    padding: 1rem;
+    margin: auto;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-header > * {
+    margin: 0;
+}
+
+#wrapper-add-todo {
+    display: flex;
+    gap: 1rem;
+}
+
+#description {
+    width: 85%;
+}
+
+#btn-add {
+    width: 15%;
+    background-color: black;
+    color: white;
+}
+
+#description,
+#btn-add {
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    border: 0.1rem solid black;
+}
+
+#todos-list {
+    list-style: none;
+    padding-left: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.todo {
+    display: flex;
+    align-items: center;
+
+    background-color: rgba(0 0 0 / 0.125);
+    padding: 0.5rem;
+}
+
+.todo-checkbox {
+    all: unset;
+}
+
+.todo-description {
+    font-size: 1.25rem;
+}
+
+.todo-description::before {
+    content: "";
+    display: inline-flex;
+    border: 0.1rem solid black;
+    height: 1em;
+    width: 1em;
+    margin-right: 1rem;
+}
+
+.todo-checkbox:checked + .todo-description {
+    text-decoration: line-through;
+}
+
+.todo-checkbox:checked + .todo-description::before {
+    background-color: black;
+}
+
+.todo-delete {
+    margin-left: auto;
+    font-size: inherit;
+    background-color: salmon;
+    border: none;
+    padding: 0.25rem 0.5rem;
+}
