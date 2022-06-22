@@ -2,7 +2,7 @@ const todos = [];
 const btnAdd = document.querySelector("#btn-add");
 const list = document.querySelector("#todos-list");
 
-const url = "http://localhost:4730/todos";
+const url = "http://localhost:4730/todos/";
 
 loadTodosData();
 
@@ -29,6 +29,7 @@ function renderTodos() {
         checkbox.id = todo.id;
         checkbox.classList.add("todo-checkbox");
         checkbox.checked = todo.done;
+        checkbox.addEventListener("click", updateTodo);
 
         const description = document.createElement("label");
         description.setAttribute("for", checkbox.id);
@@ -38,6 +39,8 @@ function renderTodos() {
         const btnDel = document.createElement("button");
         btnDel.classList.add("todo-delete");
         btnDel.innerText = "Delete";
+        btnDel.dataset.id = todo.id;
+        btnDel.addEventListener("click", deleteTodo);
 
         listEl.append(checkbox, description, btnDel);
         list.append(listEl);
@@ -64,4 +67,38 @@ function addTodo() {
             todos.push(data);
             renderTodos();
         });
+}
+
+function updateTodo() {
+    const id = Number(this.id);
+    const todo = todos.find((obj) => obj.id === id);
+    todo.done = this.checked;
+
+    const updatedTodo = {
+        id: id,
+        description: todo.description,
+        done: this.checked,
+    };
+
+    console.log(updatedTodo);
+
+    fetch(url + id, {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(updatedTodo),
+    }).then((res) => res.json());
+}
+
+function deleteTodo(e) {
+    const id = Number(e.target.dataset.id);
+    const index = todos.findIndex((obj) => obj.id === id);
+    todos.splice(index, 1);
+
+    fetch(url + id, {
+        method: "DELETE",
+    })
+        .then((res) => res.json())
+        .then(() => renderTodos());
 }
